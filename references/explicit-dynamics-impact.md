@@ -75,6 +75,38 @@ impactor mass is known/assumed — check `impactor_body.Mass` after material
 assignment to confirm it landed on the intended value (density is often
 easier to tune than an exact volume match).
 
+**State the impactor's contact geometry in the report, not just its mass.**
+Mass alone does not determine contact area or local stress/dent
+concentration — a sphere/hemisphere radius, flat punch diameter, or edge
+profile does. If the real impactor is a stand-in proxy rather than a
+standard test-spec geometry (e.g. a fixed-diameter steel ball called out by
+an impact-test standard), say so explicitly, and confirm whether the chosen
+shape/size roughly matches the applicable standard's impactor — this is a
+report-writing gap, not a solve gap, but it reads to a reviewer as "geometry
+undefined" if left out.
+
+## Transient peak deformation vs. permanent residual set
+
+`TotalDeformation.Maximum` from a solve that ends shortly after peak contact
+is the **instantaneous elastic+plastic deformation at that time step**, not
+the permanent dent/residual set left after the impactor rebounds and elastic
+strain recovers. Reporting the peak number as "the dent depth" overstates it
+whenever there's meaningful elastic recovery — which is the normal case for
+a short, low-plastic-strain impact.
+
+To report a permanent residual deformation:
+- Extend `END_TIME_S` well past the initial contact pulse so the impactor
+  fully separates and the shell's elastic ringing has time to settle, and
+  read the deformation once it stabilizes rather than at the raw solve-end
+  step; or
+- Map the Explicit Dynamics end state into a linked static structural
+  (implicit) "unload" step and read the residual deformation with all
+  contact/velocity loads removed.
+
+State explicitly in the report which of these was done — or, if neither was
+done, state plainly that the reported maximum is a transient peak, not a
+predicted permanent dent depth.
+
 ## Setting a Velocity load (do not assign the component properties directly)
 
 `vel.XComponent = <anything>` raises `TypeError: property is read-only`, and

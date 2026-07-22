@@ -172,3 +172,27 @@ in chat.
 Every reported number must be traceable to its source: case id, time step,
 frequency point, or mode index. A number with no such tag should not appear
 in a final report or summary — restate it with its source or drop it.
+
+## Simplifications must be stated with their direction, not just listed
+
+A "limitations" section that lists simplifying assumptions without saying
+which way they bias the result is easy to misread as "the model might be
+wrong" rather than "the model is a known-direction approximation." State the
+direction whenever it's inferable:
+
+- **Fixed Support at mounting/bolt locations** idealizes a real
+  screw+washer+bracket joint as fully rigid in all 6 DOF. This tends to
+  stiffen the structure locally, which can inflate stress concentrations
+  right at those points and understate overall flexibility/global
+  deformation — a real bolted joint is more compliant than a Fixed Support.
+- **A static (rate-independent) bilinear/multilinear material curve** used
+  for a high-strain-rate event (impact, drop) omits strain-rate hardening
+  (e.g. Cowper-Symonds). Most structural metals get stiffer/stronger at
+  high strain rates, so a static curve tends to *over-predict* deformation
+  and plastic strain relative to the real high-rate response — call this
+  out as a conservative-on-deformation bias, not a generic caveat.
+- For an impact/drop analysis specifically, also state the impactor's
+  contact geometry (see `explicit-dynamics-impact.md`) and whether the
+  reported deformation is a transient peak or a permanent residual set —
+  both are common ways a technically-correct solve gets misread as
+  under-specified or overstated.

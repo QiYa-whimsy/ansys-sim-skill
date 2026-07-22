@@ -126,7 +126,12 @@ workspace that owns the project files.
    for a single richly-narrated report (methodology, embedded contour
    images, hedged engineering conclusion) — see
    `postprocessing-and-reporting.md` for when each fits. State which checks
-   ran, which were skipped, and all assumptions in the report itself.
+   ran, which were skipped, and all assumptions in the report itself,
+   including the *direction* of bias each simplification introduces (e.g.
+   rigid boundary conditions overstate local stiffness, a rate-independent
+   material curve overstates deformation under high-rate loading) and, for
+   impact/drop analyses, the impactor's contact geometry and whether a
+   reported deformation is a transient peak or a permanent residual set.
 10. **Always release sessions.** Close every open Mechanical/MAPDL session,
     including on early failure paths.
 
